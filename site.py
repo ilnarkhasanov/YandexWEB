@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin
 
@@ -18,8 +18,13 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def hello():
-    return render_template('index.html')
+def redirecting():
+    return redirect(url_for('home'))
+
+
+@app.route('/home')
+def home():
+    return render_template('home.html')
 
 
 if __name__ == '__main__':
