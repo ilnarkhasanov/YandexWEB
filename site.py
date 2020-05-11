@@ -123,12 +123,19 @@ def store():
     for i in range(len(goods)):
         goods[i].url = 'static/img/goods/' + goods[i].url
 
-    for i in goods:
-        print(i.url)
-
     session.close()
 
     return render_template('store.html', goods=goods)
+
+
+@app.route('/contacts')
+def contacts():
+    return render_template('contacts.html')
+
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
 
 if __name__ == '__main__':

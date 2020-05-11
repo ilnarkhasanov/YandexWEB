@@ -1,0 +1,8 @@
+{% extends "index.html" %}
+{% block some_content %}
+<div class="usual_design" id="contacts">
+Номер телефона: +79872341643<br>
+<a href="https://vk.com/ilnarkhasanov"><img src="{{ url_for('static', filename='img/vk.png') }}"></a><br>
+<a href="https://instagram.com/ilnarkhasanoff"><img id="insta" src="{{ url_for('static', filename='img/insta.jpg') }}"></a><br>
+</div>
+{% endblock %}
