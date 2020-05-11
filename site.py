@@ -121,7 +121,7 @@ def store():
     goods = session.query(Goods).all()
     
     for i in range(len(goods)):
-        goods[i].url = """{{ url_for('static', filename='img/goods/""" + goods[i].url + """') }}"""
+        goods[i].url = 'static/img/goods/' + goods[i].url
 
     for i in goods:
         print(i.url)

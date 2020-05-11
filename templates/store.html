@@ -2,8 +2,8 @@
 {% block some_content %}
 <div class="usual_design">
     {% for good in goods %}
-        <!-- {{ good.url }} -->
         <img src="{{ good.url }}"><br>
+        {{ good.name }}
     {% endfor %}
 </div>
 {% endblock %}
