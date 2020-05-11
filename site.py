@@ -32,6 +32,22 @@ class User(UserMixin, Base):
         self.surname = surname
 
 
+class Goods(UserMixin, Base):
+    __tablename__ = "goods"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    about = Column(String)
+    cost = Column(Integer)
+    url = Column(String)
+
+    def __init__(self, name, about, cost, url):
+        self.name = name
+        self.about = about
+        self.cost = cost
+        self.url = url
+
+
 @login_manager.user_loader
 def load_user(user_id):
     session = sessionmaker(engine)()
@@ -92,9 +108,27 @@ def login():
 
 
 @app.route('/signout')
+@login_required
 def logout():
     logout_user()
     return redirect('/signin')
+
+
+@app.route('/store')
+@login_required
+def store():
+    session = sessionmaker(engine)()
+    goods = session.query(Goods).all()
+    
+    for i in range(len(goods)):
+        goods[i].url = """{{ url_for('static', filename='img/goods/""" + goods[i].url + """') }}"""
+
+    for i in goods:
+        print(i.url)
+
+    session.close()
+
+    return render_template('store.html', goods=goods)
 
 
 if __name__ == '__main__':

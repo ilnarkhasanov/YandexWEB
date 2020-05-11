@@ -1,0 +1,9 @@
+{% extends "index.html" %}
+{% block some_content %}
+<div class="usual_design">
+    {% for good in goods %}
+        <!-- {{ good.url }} -->
+        <img src="{{ good.url }}"><br>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -11,10 +11,13 @@
             src: url("{{ url_for('static', filename='EuclidCircularA/EuclidCircularA-SemiBold.ttf') }}");
         }
 
-        .main_line {
+        .usual_design {
             display: block;
             text-align: center;
             font-family: euclid;
+        }
+
+        #main_line {
             color: black;
             font-size: 36pt;
         }
@@ -25,18 +28,23 @@
             padding: 0;
         }
 
+        #hello {
+            font-size: 20pt;
+        }
+
     </style>
     <!-- <link href="{{ url_for('static', filename='css/style.css') }}"> -->
 </head>
 <body>
-    <div class="main_line">
-        <img src="{{ url_for('static', filename='img/images.png') }}">
+    <div class="usual_design" id="main_line">
+        <img src="{{ url_for('static', filename='img/unnamed.png') }}">
         <br>
 
         <ul>
-            <li><a href="/home">Home</a></li>
+            <li><a href="/home">Привет</a></li>
             
             {% if current_user.is_authenticated %}
+            <li><a href="/store">Магазин</a></li>
             <li><a href="/signout">Выйти</a></li>
             {% else %}
             <li><a href="/signup">Зарегестрироваться</a></li>
