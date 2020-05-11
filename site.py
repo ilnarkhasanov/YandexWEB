@@ -16,10 +16,11 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 
-class User(Base):
+class User(UserMixin, Base):
     __tablename__ = "user"
 
-    email = Column(String, primary_key=True)
+    id = Column(Integer, primary_key=True)
+    email = Column(String, unique=True)
     password = Column(String)
     name = Column(String)
     surname = Column(String)
@@ -33,7 +34,10 @@ class User(Base):
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.get(user_id)
+    session = sessionmaker(engine)()
+    got_id = session.query(User).get(user_id)
+    session.close()
+    return got_id
 
 
 @app.route('/')
@@ -48,18 +52,6 @@ def home():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def register():
-    # user = User('kjreng', 'fwefewfew', 'fewfewf', 'fewfewf')
-
-    # try:
-    #     session.add(user)
-    #     session.commit()
-    # except:
-    #     session.rollback()
-    #     raise
-    # finally:
-    #     session.close()
-
-
     form = SignUpField()
 
     session = sessionmaker(bind=engine)()
@@ -78,6 +70,31 @@ def register():
         return redirect('/')
 
     return render_template('register.html', form=form)
+
+
+@app.route('/signin', methods=['GET', 'POST'])
+def login():
+    form = SignInField()
+    
+    if form.validate_on_submit():
+        session = sessionmaker(engine)()
+        user = session.query(User).filter(User.email == form.email.data, User.password == form.password.data).first()
+        if user:
+            login_user(user)
+            session.close()
+            return redirect('/')
+        else:
+            session.close()
+            flash('Повторите попытку')
+            return render_template('login.html', title='Войти', form=form)
+
+    return render_template('login.html', form=form)
+
+
+@app.route('/signout')
+def logout():
+    logout_user()
+    return redirect('/signin')
 
 
 if __name__ == '__main__':
