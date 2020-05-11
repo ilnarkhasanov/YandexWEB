@@ -3,7 +3,9 @@
 <div class="usual_design">
     {% for good in goods %}
         <img src="{{ good.url }}"><br>
-        {{ good.name }}
+        {{ good.name }}<br>
+        {{ good.about }}<br>
+        Стоимость: {{ good.cost }} рублей<br>
     {% endfor %}
 </div>
 {% endblock %}
